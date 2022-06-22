@@ -22,44 +22,17 @@ const onPost = (req: any, res: any) => {
       let hobbies: string[] = [];
 
       const reqPairs = userData.split('&');
-      reqPairs.map((pair: string) => {
-        const filedToken = pair.slice(0, 3);
-
-        if (!filedToken.split('=').includes('use')) {
-          res.statusCode = 400;
-          const err = createError(
-            400,
-            'input does not contain all required filed'
-          );
-          res.write(JSON.stringify(err));
-          res.end();
-        }
-
-        if (!filedToken.split('=').includes('age')) {
-          res.statusCode = 400;
-          const err = createError(
-            400,
-            'input does not contain all required filed'
-          );
-          res.write(JSON.stringify(err));
-          res.end();
-        }
-
-        if (!filedToken.split('=').includes('hob')) {
-          res.statusCode = 400;
-          const err = createError(
-            400,
-            'input does not contain all required filed'
-          );
-          res.write(JSON.stringify(err));
-          res.end();
-        }
-        switch (filedToken) {
-          case 'use':
+      const allPropsNames: string[] = [];
+      reqPairs.map((pair) => {
+        switch (pair.split('=')[0]) {
+          case 'username':
+            allPropsNames.push('username');
             return (username = pair.split('=')[1]);
           case 'age':
+            allPropsNames.push('age');
             return (age = Number(pair.split('=')[1]));
-          case 'hob':
+          case 'hobbies':
+            allPropsNames.push('hobbies');
             const hobbiesString = pair.split('=')[1];
             if (hobbiesString !== '') {
               hobbiesString.split('%2C').map((hobby) => hobbies.push(hobby));
@@ -75,8 +48,24 @@ const onPost = (req: any, res: any) => {
             );
             res.write(JSON.stringify(err, null, 2));
             res.end();
+            return;
         }
       });
+
+      const hasAllProps = Boolean(
+        allPropsNames.includes('username') &&
+          allPropsNames.includes('age') &&
+          allPropsNames.includes('hobbies')
+      );
+      if (!hasAllProps) {
+        res.statusCode = 400;
+        const err = createError(
+          400,
+          'input does not contain all required fields'
+        );
+        res.write(JSON.stringify(err, null, 2));
+        return res.end();
+      }
 
       const user = state.users.find(
         (user) => user.username === username && user.age === age
@@ -86,11 +75,9 @@ const onPost = (req: any, res: any) => {
         res.statusCode = 400;
         const err = createError(400, `user already exist`);
         res.write(JSON.stringify(err, null, 2));
-        res.end();
-        return;
+        return res.end();
       }
 
-      // this a stub cause I don't permitted to use biblio like lodash to create uniqueID ((
       const getId = () => {
         const id = String(state.usersIDs.count);
         state.usersIDs.count += 1;
@@ -109,7 +96,7 @@ const onPost = (req: any, res: any) => {
       state.paths.push('/api/users/' + newUser.id);
       res.statusCode = 201;
       res.write(JSON.stringify(newUser));
-      res.end();
+      return res.end();
     });
 };
 

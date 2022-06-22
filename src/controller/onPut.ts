@@ -24,6 +24,7 @@ const onPut = (req: any, res: any) => {
       }
 
       const user = state.users.find((user) => user.id === id);
+
       if (!user) {
         res.statusCode = 404;
         const err = createError(404, `user with the id ${id} does not exist`);
@@ -34,18 +35,20 @@ const onPut = (req: any, res: any) => {
 
       let username: string;
       let age: number;
-      let hobbies: [string] | [any] = [''];
+      let hobbies: string[] = [];
 
       const reqPairs = userData.split('&');
-      reqPairs.map((pair: string) => {
-        const filedToken = pair.slice(0, 3);
-
-        switch (filedToken) {
-          case 'use':
+      const allPropsNames: string[] = [];
+      reqPairs.map((pair) => {
+        switch (pair.split('=')[0]) {
+          case 'username':
+            allPropsNames.push('username');
             return (username = pair.split('=')[1]);
           case 'age':
+            allPropsNames.push('age');
             return (age = Number(pair.split('=')[1]));
-          case 'hob':
+          case 'hobbies':
+            allPropsNames.push('hobbies');
             const hobbiesString = pair.split('=')[1];
             if (hobbiesString !== '') {
               hobbiesString.split('%2C').map((hobby) => hobbies.push(hobby));
@@ -61,19 +64,35 @@ const onPut = (req: any, res: any) => {
             );
             res.write(JSON.stringify(err, null, 2));
             res.end();
+            return;
         }
       });
+
+      const hasAllProps = Boolean(
+        allPropsNames.includes('username') &&
+          allPropsNames.includes('age') &&
+          allPropsNames.includes('hobbies')
+      );
+      if (!hasAllProps) {
+        res.statusCode = 400;
+        const err = createError(
+          400,
+          'input does not contain all required fields'
+        );
+        res.write(JSON.stringify(err, null, 2));
+        return res.end();
+      }
 
       interface newUserInfo {
         username?: string;
         age?: number;
-        hobbies?: [string];
+        hobbies?: string[];
       }
 
       const newUserInfo: newUserInfo = {
         username: username,
         age,
-        hobbies: hobbies,
+        hobbies: Boolean(hobbies) ? hobbies : [],
       };
 
       state.users.map((user) => {

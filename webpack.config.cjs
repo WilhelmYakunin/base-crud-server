@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
+const entry = (mode === 'none') ? './src/multi.ts' : './src/index.ts';
 
 module.exports = {
   mode,
@@ -15,7 +16,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.ts'],
   },
-  entry: './src',
+  entry: entry,
   output: {
     path: path.resolve('./dist'),
     filename: 'server.cjs',

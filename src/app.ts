@@ -23,6 +23,7 @@ const app = (req: any, res: any) => {
         `somthing went wrong on server side method: ${method} url: ${url}`
       );
       res.write(JSON.stringify(err, null, 2));
+      return res.end();
   }
 };
 
