@@ -8,27 +8,27 @@ Afterwords in the folder of the cloned project type <code>npm i</code> and after
 To see the test remarks please run
 
 <h2> The task</h2>
-https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/assignment.md
-19.06.2022/ deadline 19.06.2022
-score 202 /202
-Basic Scope
-+10 The repository with the application contains a Readme.md file containing detailed instructions for installing, running and using the application
-+10 GET /user implemented properly
-+10 GET /user/${userId} implemented properly
-+10 POST /user implemented properly
-+10 PUT /user/{userId} implemented properly
-+10 DELETE /user/${userId} implemented properly
-+6 Users are stored in the form described in the technical requirements
-+6 Value of port on which application is running is stored in .env file
-Advanced Scope
-+30 Task implemented on Typescript
-+10 Processing of requests to non-existing endpoints implemented properly
-+10 Errors on the server side that occur during the processing of a request should be handled and processed properly
-+10 Development mode: npm script start:dev implemented properly
-+10 Production mode: npm script start:prod implemented properly
-Hacker Scope
-+30 There are tests for API (not less than 3 scenarios)
-+30 There is horizontal scaling for application with a load balancer
+https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/assignment.md<br />
+19.06.2022/ deadline 19.06.2022<br />
+score 202 /202<br />
+Basic Scope<br />
++10 The repository with the application contains a Readme.md file containing detailed instructions for installing, running and using the application<br />
++10 GET /user implemented properly<br />
++10 GET /user/${userId} implemented properly<br />
++10 POST /user implemented properly<br />
++10 PUT /user/{userId} implemented properly<br />
++10 DELETE /user/${userId} implemented properly<br />
++6 Users are stored in the form described in the technical requirements<br />
++6 Value of port on which application is running is stored in .env file<br />
+Advanced Scope<br />
++30 Task implemented on Typescript<br />
++10 Processing of requests to non-existing endpoints implemented properly<br />
++10 Errors on the server side that occur during the processing of a request should be handled and processed properly<br />
++10 Development mode: npm script start:dev implemented properly<br />
++10 Production mode: npm script start:prod implemented properly<br />
+Hacker Scope<br />
++30 There are tests for API (not less than 3 scenarios)<br />
++30 There is horizontal scaling for application with a load balancer<br />
 
 <h2>Fo testing </h2>
 
